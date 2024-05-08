@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the TranslatedSlugHelper Project.
+ *
+ * @package     TranslatedSlugHelper
+ * @author      Anatolii Belianin <belianianatoli@gmail.com>
+ * @license     See LICENSE.md for license information
+ * @link        https://github.com/abeliani/translated-slug-helper
+ */
+
 declare(strict_types=1);
 
 namespace Abeliani\TranslatedSlugHelper;
@@ -14,10 +23,16 @@ use Psr\Http\Message\RequestInterface;
 class TranslatedBy
 {
     private DriverInterface $driver;
-    private ?DriverInterface $proxySuccessor = null;
+    private ?ProxyDriver $proxySuccessor = null;
 
     /**
-     * @throws \ReflectionException
+     * Creating instance of StringTranslator driver with implemented Psr interfaces
+     * and proxying successor of driver to make chain of driver calls
+     *
+     * @param string $driverClass namespace of StringTranslator driver
+     * @param array $driverOpts the driver options
+     *
+     * @throws \ReflectionException|\LogicException
      */
     public function __construct(string $driverClass, array $driverOpts = [])
     {
@@ -25,6 +40,24 @@ class TranslatedBy
             throw new \LogicException(sprintf('Driver class not found: %s', $driverClass));
         }
 
+        $this->driver = $this->initDriver($driverClass, $driverOpts);
+    }
+
+    public function getDriver(): DriverInterface
+    {
+        return $this->driver;
+    }
+
+    public function getDriverProxySuccessor(): ?ProxyDriver
+    {
+        return $this->proxySuccessor;
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    protected function initDriver(string $driverClass, array $driverOpts = []): DriverInterface
+    {
         $reflector = new \ReflectionClass($driverClass);
         $params = $reflector->getConstructor()->getParameters();
 
@@ -58,16 +91,6 @@ class TranslatedBy
             }
         }
 
-        $this->driver = $reflector->newInstanceArgs($args ?? []);
-    }
-
-    public function getDriverInstance(): DriverInterface
-    {
-        return $this->driver;
-    }
-
-    public function getDriverProxySuccessorInstance(): ?ProxyDriver
-    {
-        return $this->proxySuccessor;
+        return $reflector->newInstanceArgs($args ?? []);
     }
 }
