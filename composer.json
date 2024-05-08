@@ -1,0 +1,42 @@
+{
+    "name": "abeliani/translated-slug-helper",
+    "description": "Creates a valid slug from the received text",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Abeliani\\TranslatedSlugHelper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Abeliani\\TranslatedSlugHelper\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anatolii Belianin",
+            "email": "belianianatoli@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../StringTranslator"
+        },
+        {
+            "type": "path",
+            "url": "../SlugHelper"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "abeliani/string-translator": "*",
+        "abeliani/slug-helper": "*",
+        "guzzlehttp/guzzle": "7.8.1"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^2.0"
+    }
+}
