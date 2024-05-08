@@ -1,4 +1,4 @@
-# TranslatedSlugHelper - helps to get a valid slug translated or transliterated by a driver collection
+# TranslatedSlugHelper - helps to get a valid url slug translated or transliterated by a driver collection
 
 The package uses libraries **[StringTranslator](https://github.com/abeliani/string-translator.git)** and **[SlugHelper](https://github.com/abeliani/slug-helper.git)**.
 
@@ -11,7 +11,7 @@ composer require abeliani/translated-slug-helper
 ## Examples
 
 ### Example of offline driver
-Blog posts often require a slug to generate a link. We can use a transit driver which simply transliteration the symbol table for example: u-у and vice versa.
+Blog posts often require a slug to generate a url. We can use a transliteration driver which simply transliteration the symbol table for example: u-у and vice versa.
 
 ```php
 $slug = new TranslatedSlugHelper(
@@ -52,7 +52,7 @@ $slug = new TranslatedSlugHelper(
 print $slug->from('Привет мир!', 'en'); // if MyMemory service is available: hello-world | otherwise by transilt driver: privet-mir
 ```
 
-Ff you need to change the word separator. you can pass it through settings object
+If you need to change the word separator. you can pass it through settings object
 
 ```php
 // Passing new divider +
